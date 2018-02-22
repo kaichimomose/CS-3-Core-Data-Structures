@@ -10,6 +10,13 @@ import string
 # string.printable is digits + ascii_letters + punctuation + whitespace
 
 
+number_for_alphabet = {}
+assigning_number = 10
+
+for character in string.ascii_uppercase:
+    number_for_alphabet[character] = assigning_number
+    assigning_number += 1
+
 def decode(digits, base):
     """Decode given digits in given base to number in base 10.
     digits: str -- string representation of number (in given base)
@@ -17,13 +24,43 @@ def decode(digits, base):
     return: int -- integer representation of number (in base 10)"""
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    # TODO: Decode digits from binary (base 2)
-    # ...
-    # TODO: Decode digits from hexadecimal (base 16)
-    # ...
+    number_base_10 = 0
+    # for i in range(0, len(digits)):
+    #     # TODO: Decode digits from binary (base 2)
+    #     digit = digits[i]
+    #     if base == 2:
+    #         number_base_10 += base ** ((len(digits) - 1) - i) * int(digit)
+    #     # TODO: Decode digits from hexadecimal (base 16)
+    #     elif base == 16:
+    #         number_for_alphabet = {}
+    #         assigning_number = 10
+    #         for character in string.ascii_uppercase:
+    #             number_for_alphabet[character] = assigning_number
+    #             assigning_number += 1
+    #         if digit.isalpha():
+    #             if digit in number_for_alphabet:
+    #                 number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit]
+    #             else:
+    #                 number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit.upper()]
+    #         else:
+    #             number_base_10 += base ** ((len(digits) - 1) - i) * int(digits[i])
     # TODO: Decode digits from any base (2 up to 36)
-    # ...
-
+    for i in range(0, len(digits)):
+        digit = digits[i]
+        if base > 10:
+            if digit.isalpha():
+                if digit in number_for_alphabet:
+                    number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit]
+                    print(number_base_10)
+                else:
+                    number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit.upper()]
+            else:
+                number_base_10 += base ** ((len(digits) - 1) - i) * int(digits[i])
+                print((len(digits) - 1) - i)
+                print(number_base_10)
+        else:
+            number_base_10 += base ** ((len(digits) - 1) - i) * int(digit)
+    return number_base_10
 
 def encode(number, base):
     """Encode given number in base 10 to digits in given base.
@@ -35,11 +72,35 @@ def encode(number, base):
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
     # TODO: Encode number in binary (base 2)
-    # ...
-    # TODO: Encode number in hexadecimal (base 16)
-    # ...
+    encoded_number = ""
+    # if base == 2:
+    #     while number != 0:
+    #         remainder = number % base
+    #         encoded_number += str(remainder)
+    #         number = round(number / base)
+    # # TODO: Encode number in hexadecimal (base 16)
+    # elif base == 16:
+    #     alphabet_for_number = dict((number, alphabet) for alphabet, number in number_for_alphabet.items())
+    #     while number != 0:
+    #         remainder = number % base
+    #         print(remainder)
+    #         if remainder > 10:
+    #             remainder = alphabet_for_number[remainder]
+    #         encoded_number += str(remainder)
+    #         # round down
+    #         number = round((number / base) - 0.5)
     # TODO: Encode number in any base (2 up to 36)
-    # ...
+    alphabet_for_number = dict((number, alphabet) for alphabet, number in number_for_alphabet.items())
+    while number != 0:
+        remainder = number % base
+        print("remainder: {}".format(remainder))
+        if remainder >= 10:
+            remainder = alphabet_for_number[remainder]
+        encoded_number = str(remainder) + encoded_number
+        # round down
+        number = int(number / base)
+        print("number: {}".format(number))
+    return encoded_number
 
 
 def convert(digits, base1, base2):
@@ -59,7 +120,10 @@ def convert(digits, base1, base2):
     # ...
     # TODO: Convert digits from any base to any base (2 up to 36)
     # ...
-
+    decoded_number = decode(digits, base1)
+    print(decoded_number)
+    encoded_number = encode(decoded_number, base2)
+    return encoded_number
 
 def main():
     """Read command-line arguments and convert given digits between bases."""
