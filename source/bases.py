@@ -13,7 +13,7 @@ import string
 number_for_alphabet = {}
 assigning_number = 10
 
-for character in string.ascii_uppercase:
+for character in string.ascii_lowercase:
     number_for_alphabet[character] = assigning_number
     assigning_number += 1
 
@@ -53,7 +53,7 @@ def decode(digits, base):
                     number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit]
                     print(number_base_10)
                 else:
-                    number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit.upper()]
+                    number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit.lower()]
             else:
                 number_base_10 += base ** ((len(digits) - 1) - i) * int(digits[i])
                 print((len(digits) - 1) - i)
