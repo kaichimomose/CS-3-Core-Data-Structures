@@ -23,6 +23,16 @@ class BasesDecodeTest(unittest.TestCase):
         assert decode('1101', 2) == 13
         assert decode('1110', 2) == 14
         assert decode('1111', 2) == 15
+        assert decode('111010100101', 2) == 3749
+        assert decode('11010110100', 2) == 1716
+        assert decode('11010110101', 2) == 1717
+        assert decode('11010110110', 2) == 1718
+        assert decode('111111010101101011', 2) == 259435
+        assert decode('111001000101101011', 2) == 233835
+        assert decode('10101011110010111', 2) == 87959
+        assert decode('10011100010000', 2) == 10000
+        assert decode('1111111111111111', 2) == 65535
+        assert decode('1111111111111111000111011', 2) == 33553979
 
     def test_decode_decimal(self):
         assert decode('5', 10) == 5
@@ -37,6 +47,16 @@ class BasesDecodeTest(unittest.TestCase):
         assert decode('6789', 10) == 6789
         assert decode('13579', 10) == 13579
         assert decode('24680', 10) == 24680
+        assert decode('38737', 10) == 38737
+        assert decode('8724568267', 10) == 8724568267
+        assert decode('234587238', 10) == 234587238
+        assert decode('345235254', 10) == 345235254
+        assert decode('5645747675797', 10) == 5645747675797
+        assert decode('8987567453', 10) == 8987567453
+        assert decode('68980787567', 10) == 68980787567
+        assert decode('645443567878', 10) == 645443567878
+        assert decode('42345565786', 10) == 42345565786
+        assert decode('90789456847', 10) == 90789456847
 
     def test_decode_hexadecimal(self):
         assert decode('a', 16) == 10
@@ -51,36 +71,75 @@ class BasesDecodeTest(unittest.TestCase):
         assert decode('facade', 16) == 16435934
         assert decode('deadbeef', 16) == 3735928559
         assert decode('f007ba11', 16) == 4027038225
+        assert decode('8BA53', 16) == 571987
+        assert decode('abcd', 16) == 43981
+        assert decode('12345', 16) == 74565
+        assert decode('a1b2c3d4', 16) == 2712847316
+        assert decode('9f8e7d', 16) == 10456701
+        assert decode('567def', 16) == 5668335
+        assert decode('bad', 16) == 2989
+        assert decode('badface', 16) == 195951310
+        assert decode('feed', 16) == 65261
+        assert decode('bee5ace9cad3cdead7', 16) == 3521431233792840690391
 
     def test_decode_10(self):
         assert decode('10', 2) == 2
         assert decode('10', 4) == 4
+        assert decode('10', 6) == 6
         assert decode('10', 8) == 8
         assert decode('10', 10) == 10
+        assert decode('10', 13) == 13
         assert decode('10', 16) == 16
+        assert decode('10', 17) == 17
+        assert decode('10', 20) == 20
+        assert decode('10', 21) == 21
+        assert decode('10', 24) == 24
         assert decode('10', 25) == 25
+        assert decode('10', 28) == 28
+        assert decode('10', 30) == 30
         assert decode('10', 32) == 32
+        assert decode('10', 35) == 35
         assert decode('10', 36) == 36
+
 
     def test_decode_1010(self):
         assert decode('1010', 2) == 10
         assert decode('1010', 4) == 68
+        assert decode('1010', 6) == 222
         assert decode('1010', 8) == 520
         assert decode('1010', 10) == 1010
+        assert decode('1010', 13) == 2210
         assert decode('1010', 16) == 4112
+        assert decode('1010', 17) == 4930
+        assert decode('1010', 20) == 8020
+        assert decode('1010', 21) == 9282
+        assert decode('1010', 24) == 13848
         assert decode('1010', 25) == 15650
+        assert decode('1010', 28) == 21980
+        assert decode('1010', 30) == 27030
         assert decode('1010', 32) == 32800
+        assert decode('1010', 35) == 42910
         assert decode('1010', 36) == 46692
 
     def test_decode_101101(self):
         assert decode('101101', 2) == 45
         assert decode('101101', 4) == 1105
+        assert decode('101101', 6) == 8029
         assert decode('101101', 8) == 33345
         assert decode('101101', 10) == 101101
+        assert decode('101101', 13) == 373660
         assert decode('101101', 16) == 1052929
+        assert decode('101101', 17) == 1425060
+        assert decode('101101', 20) == 3208401
+        assert decode('101101', 21) == 4093804
+        assert decode('101101', 24) == 7977025
         assert decode('101101', 25) == 9781876
+        assert decode('101101', 28) == 17233105
+        assert decode('101101', 30) == 24327901
         assert decode('101101', 32) == 33588225
+        assert decode('101101', 35) == 52565976
         assert decode('101101', 36) == 60514129
+
 
 
 class BasesEncodeTest(unittest.TestCase):

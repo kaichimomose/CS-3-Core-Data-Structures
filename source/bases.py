@@ -47,17 +47,11 @@ def decode(digits, base):
     # TODO: Decode digits from any base (2 up to 36)
     for i in range(0, len(digits)):
         digit = digits[i]
-        if base > 10:
-            if digit.isalpha():
-                if digit in number_for_alphabet:
-                    number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit]
-                    print(number_base_10)
-                else:
-                    number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit.lower()]
+        if digit.isalpha():
+            if digit in number_for_alphabet:
+                number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit]
             else:
-                number_base_10 += base ** ((len(digits) - 1) - i) * int(digits[i])
-                print((len(digits) - 1) - i)
-                print(number_base_10)
+                number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit.lower()]
         else:
             number_base_10 += base ** ((len(digits) - 1) - i) * int(digit)
     return number_base_10
@@ -119,9 +113,7 @@ def convert(digits, base1, base2):
     # TODO: Convert digits from base 10 to base 16 (and vice versa)
     # ...
     # TODO: Convert digits from any base to any base (2 up to 36)
-    # ...
     decoded_number = decode(digits, base1)
-    print(decoded_number)
     encoded_number = encode(decoded_number, base2)
     return encoded_number
 
