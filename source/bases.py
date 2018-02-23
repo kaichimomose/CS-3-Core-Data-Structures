@@ -16,6 +16,7 @@ def decode(digits, base):
     return: int -- integer representation of number (in base 10)"""
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
+    # decoded number
     number_base_10 = 0
     # for i in range(0, len(digits)):
     #     # TODO: Decode digits from binary (base 2)
@@ -32,14 +33,21 @@ def decode(digits, base):
     #         else:
     #             number_base_10 += base ** ((len(digits) - 1) - i) * int(digits[i])
     # TODO: Decode digits from any base (2 up to 36)
+    # iterate through each letter
     for i in range(0, len(digits)):
+        # ith index letter
         digit = digits[i]
+        # alphabet or digit
         if digit.isalpha():
+            # lowercase or uppercase
             if digits.islower():
+                # base number powered by ((len(digits) - 1) - i) place value
                 number_base_10 += base ** ((len(digits) - 1) - i) * (string.ascii_letters.index(digit) + 10)
             else:
+                #
                 number_base_10 += base ** ((len(digits) - 1) - i) * (string.ascii_letters.index(digit) + 10 - 26)
         else:
+            #
             number_base_10 += base ** ((len(digits) - 1) - i) * int(digit)
     return number_base_10
 
@@ -61,26 +69,27 @@ def encode(number, base):
     #         number = round(number / base)
     # # TODO: Encode number in hexadecimal (base 16)
     # elif base == 16:
-    #     alphabet_for_number = dict((number, alphabet) for alphabet, number in number_for_alphabet.items())
     #     while number != 0:
     #         remainder = number % base
     #         print(remainder)
-    #         if remainder > 10:
-    #             remainder = alphabet_for_number[remainder]
+    #         if remainder >= 10:
+    #             remainder = string.ascii_letters[remainder - 10]
     #         encoded_number += str(remainder)
     #         # round down
-    #         number = round((number / base) - 0.5)
+    #         number = int(number / base)
     # TODO: Encode number in any base (2 up to 36)
     while number != 0:
+        # calcurate remainder
         remainder = number % base
-        print("remainder: {}".format(remainder))
+        print("R: {}".format(remainder))
         if remainder >= 10:
-            # remainder = alphabet_for_number[remainder]
+            # get alphabet character
             remainder = string.ascii_letters[remainder - 10]
+        # prepend remainder to encoded_number
         encoded_number = str(remainder) + encoded_number
         # round down
         number = int(number / base)
-        print("number: {}".format(number))
+        print("N: {}".format(number / base))
     return encoded_number
 
 
