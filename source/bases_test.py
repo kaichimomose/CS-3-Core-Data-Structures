@@ -141,7 +141,6 @@ class BasesDecodeTest(unittest.TestCase):
         assert decode('101101', 36) == 60514129
 
 
-
 class BasesEncodeTest(unittest.TestCase):
 
     def test_encode_binary(self):

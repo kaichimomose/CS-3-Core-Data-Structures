@@ -9,14 +9,6 @@ import string
 # string.ascii_letters is ascii_lowercase + ascii_uppercase
 # string.printable is digits + ascii_letters + punctuation + whitespace
 
-
-number_for_alphabet = {}
-assigning_number = 10
-
-for character in string.ascii_lowercase:
-    number_for_alphabet[character] = assigning_number
-    assigning_number += 1
-
 def decode(digits, base):
     """Decode given digits in given base to number in base 10.
     digits: str -- string representation of number (in given base)
@@ -32,26 +24,21 @@ def decode(digits, base):
     #         number_base_10 += base ** ((len(digits) - 1) - i) * int(digit)
     #     # TODO: Decode digits from hexadecimal (base 16)
     #     elif base == 16:
-    #         number_for_alphabet = {}
-    #         assigning_number = 10
-    #         for character in string.ascii_uppercase:
-    #             number_for_alphabet[character] = assigning_number
-    #             assigning_number += 1
     #         if digit.isalpha():
-    #             if digit in number_for_alphabet:
-    #                 number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit]
+    #             if digits.islower():
+    #                 number_base_10 += base ** ((len(digits) - 1) - i) * (string.ascii_letters.index(digit) + 10)
     #             else:
-    #                 number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit.upper()]
+    #                 number_base_10 += base ** ((len(digits) - 1) - i) * (string.ascii_letters.index(digit) + 10 - 26)
     #         else:
     #             number_base_10 += base ** ((len(digits) - 1) - i) * int(digits[i])
     # TODO: Decode digits from any base (2 up to 36)
     for i in range(0, len(digits)):
         digit = digits[i]
         if digit.isalpha():
-            if digit in number_for_alphabet:
-                number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit]
+            if digits.islower():
+                number_base_10 += base ** ((len(digits) - 1) - i) * (string.ascii_letters.index(digit) + 10)
             else:
-                number_base_10 += base ** ((len(digits) - 1) - i) * number_for_alphabet[digit.lower()]
+                number_base_10 += base ** ((len(digits) - 1) - i) * (string.ascii_letters.index(digit) + 10 - 26)
         else:
             number_base_10 += base ** ((len(digits) - 1) - i) * int(digit)
     return number_base_10
@@ -84,12 +71,12 @@ def encode(number, base):
     #         # round down
     #         number = round((number / base) - 0.5)
     # TODO: Encode number in any base (2 up to 36)
-    alphabet_for_number = dict((number, alphabet) for alphabet, number in number_for_alphabet.items())
     while number != 0:
         remainder = number % base
         print("remainder: {}".format(remainder))
         if remainder >= 10:
-            remainder = alphabet_for_number[remainder]
+            # remainder = alphabet_for_number[remainder]
+            remainder = string.ascii_letters[remainder - 10]
         encoded_number = str(remainder) + encoded_number
         # round down
         number = int(number / base)
