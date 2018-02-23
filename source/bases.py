@@ -9,6 +9,7 @@ import string
 # string.ascii_letters is ascii_lowercase + ascii_uppercase
 # string.printable is digits + ascii_letters + punctuation + whitespace
 
+
 def decode(digits, base):
     """Decode given digits in given base to number in base 10.
     digits: str -- string representation of number (in given base)
@@ -41,7 +42,7 @@ def decode(digits, base):
         if digit.isalpha():
             # lowercase or uppercase
             if digits.islower():
-                # base number powered by ((len(digits) - 1) - i) place value
+                # base number power of ((len(digits) - 1) - i) place value
                 number_base_10 += base ** ((len(digits) - 1) - i) * (string.ascii_letters.index(digit) + 10)
             else:
                 #
@@ -50,6 +51,7 @@ def decode(digits, base):
             #
             number_base_10 += base ** ((len(digits) - 1) - i) * int(digit)
     return number_base_10
+
 
 def encode(number, base):
     """Encode given number in base 10 to digits in given base.
@@ -81,7 +83,6 @@ def encode(number, base):
     while number != 0:
         # calcurate remainder
         remainder = number % base
-        print("R: {}".format(remainder))
         if remainder >= 10:
             # get alphabet character
             remainder = string.ascii_letters[remainder - 10]
@@ -89,7 +90,96 @@ def encode(number, base):
         encoded_number = str(remainder) + encoded_number
         # round down
         number = int(number / base)
-        print("N: {}".format(number / base))
+    return encoded_number
+
+
+def decode_fractional_numbers(digits, base):
+    """Decode given fractional numbers in given base to fractional numbers in base 10.
+    digits: str -- string representation of fractional number (in given base)
+    base: int -- base of given number
+    return: float -- integer representation of fractional number (in base 10)"""
+    # Handle up to base 36 [0-9a-z]
+    assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
+    integer_and_fractional_part = digits.split('.')
+
+    integer = integer_and_fractional_part[0]
+    fractional_part = integer_and_fractional_part[1]
+
+    integer_number_base_10 = 0
+    fractional_number_base_10 = 0
+
+    for i in range(0, len(integer)):
+        # ith index letter
+        digit = integer[i]
+        # alphabet or digit
+        if digit.isalpha():
+            # lowercase or uppercase
+            if digits.islower():
+                # base number power of ((len(digits) - 1) - i) place value
+                integer_number_base_10 += base ** ((len(integer) - 1) - i) * (string.ascii_letters.index(digit) + 10)
+            else:
+                #
+                integer_number_base_10 += base ** ((len(integer) - 1) - i) * (string.ascii_letters.index(digit) + 10 - 26)
+        else:
+            #
+            integer_number_base_10 += base ** ((len(integer) - 1) - i) * int(digit)
+    for i in range(0, len(fractional_part)):
+        # ith index letter
+        digit = fractional_part[i]
+        print(digit)
+        # alphabet or digit
+        if digit.isalpha():
+            # lowercase or uppercase
+            if digits.islower():
+                # base number power of (- 1 + i) place value
+                fractional_number_base_10 += base ** (-(i + 1)) * (string.ascii_letters.index(digit) + 10)
+            else:
+                #
+                fractional_number_base_10 += base ** (-(i + 1)) * (string.ascii_letters.index(digit) + 10 - 26)
+        else:
+            #
+            fractional_number_base_10 += base ** (-(i + 1)) * int(digit)
+    return str(integer_number_base_10 + fractional_number_base_10)
+
+
+def encode_fractional_number(number, base):
+    """Encode given number in base 10 to digits in given base.
+    number: int -- integer representation of number (in base 10)
+    base: int -- base to convert to
+    return: str -- string representation of number (in given base)"""
+    # Handle up to base 36 [0-9a-z]
+    assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
+    # Handle unsigned numbers only for now
+    number = float(number)
+    assert number >= 0, 'number is negative: {}'.format(number)
+    # TODO: Encode number in binary (base 2)
+    integer = int(number)
+    print(integer)
+    fractional_part = number - integer
+    print(fractional_part)
+    encoded_number = ""
+    while integer != 0:
+        # calcurate remainder
+        remainder = integer % base
+        if remainder >= 10:
+            # get alphabet character
+            remainder = string.ascii_letters[remainder - 10]
+        # prepend remainder to encoded_number
+        encoded_number = str(remainder) + encoded_number
+        # round down
+        integer = int(integer / base)
+
+    encoded_number += "."
+    while fractional_part != 0:
+        # calcurate remainder
+        product = fractional_part * base
+        integer = int(product)
+        fractional_part = product - integer
+        if integer >= 10:
+            # get alphabet character
+            integer = string.ascii_letters[integer - 10]
+        # prepend remainder to encoded_number
+        encoded_number += str(integer)
     return encoded_number
 
 
@@ -109,9 +199,14 @@ def convert(digits, base1, base2):
     # TODO: Convert digits from base 10 to base 16 (and vice versa)
     # ...
     # TODO: Convert digits from any base to any base (2 up to 36)
-    decoded_number = decode(digits, base1)
-    encoded_number = encode(decoded_number, base2)
+    if '.' in digits:
+        decoded_number = decode_fractional_numbers(digits, base1)
+        encoded_number = encode_fractional_number(decoded_number, base2)
+    else:
+        decoded_number = decode(digits, base1)
+        encoded_number = encode(decoded_number, base2)
     return encoded_number
+
 
 def main():
     """Read command-line arguments and convert given digits between bases."""
