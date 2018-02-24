@@ -17,6 +17,11 @@ def factorial_iterative(n):
     pass
     # once implemented, change factorial (above) to call factorial_iterative
     # to verify that your iterative implementation passes all tests
+    """time complexity"""
+    """Best case: O(1) - n = 0"""
+    """Worst case: O(n) - n = n"""
+    """space complexity"""
+    """Best case: O(1) - does not create anything"""
     product = 0
     for i in range(0, n + 1):
         if i != 0:
@@ -26,6 +31,13 @@ def factorial_iterative(n):
     return product
 
 def factorial_recursive(n):
+    """time complexity"""
+    """Best case: O(1) - n = 0"""
+    """Worst case: O(n) - n = n"""
+    """space complexity"""
+    """Best case: O(1) - does not create anything (n = 0)"""
+    """Worst case: O(n) - call function n times"""
+    product = 0
     # check if n is one of the base cases
     if n == 0 or n == 1:
         return 1
