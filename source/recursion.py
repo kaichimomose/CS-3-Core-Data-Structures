@@ -37,7 +37,6 @@ def factorial_recursive(n):
     """space complexity"""
     """Best case: O(1) - does not create anything (n = 0)"""
     """Worst case: O(n) - call function n times"""
-    product = 0
     # check if n is one of the base cases
     if n == 0 or n == 1:
         return 1
