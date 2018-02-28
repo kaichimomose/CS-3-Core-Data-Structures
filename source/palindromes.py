@@ -13,16 +13,38 @@ def is_palindrome(text):
     # implement is_palindrome_iterative and is_palindrome_recursive below, then
     # change this to call your implementation to verify it passes all tests
     assert isinstance(text, str), 'input is not a string: {}'.format(text)
-    return is_palindrome_iterative(text)
-    # return is_palindrome_recursive(text)
+    # return is_palindrome_iterative(text)
+    return is_palindrome_recursive(text)
 
 
 def is_palindrome_iterative(text):
     # TODO: implement the is_palindrome function iteratively here
     pass
     # once implemented, change is_palindrome to call is_palindrome_iterative
-    # to verify that your iterative implementation passes all tests
+    # to verify that your iterative implementation passes all tests\
 
+    # edge case
+    if text == '':
+        return True
+    else:
+        # make text lowercase
+        lowercase_text = text.lower()
+
+        new_text = ''
+        reverse_text = ''
+
+        for character in lowercase_text:
+            if character not in string.punctuation and character != ' ':
+                # make text with appending each character
+                new_text += character
+                # make text with prepending each character
+                reverse_text = character + reverse_text
+            else:
+                pass
+        if new_text == reverse_text:
+            return True
+        else:
+            return False
 
 def is_palindrome_recursive(text, left=None, right=None):
     # TODO: implement the is_palindrome function recursively here
@@ -30,6 +52,31 @@ def is_palindrome_recursive(text, left=None, right=None):
     # once implemented, change is_palindrome to call is_palindrome_recursive
     # to verify that your iterative implementation passes all tests
 
+    # edge case
+    if text == '':
+        return True
+    else:
+        if left is None and right is None:
+            left = 0
+            right = len(text) - 1
+        elif left >= right:
+            return True
+        # make character lowercase
+        character_from_left = text[left].lower()
+        character_from_right = text[right].lower()
+        # check character is punctuation or whitespace
+        if character_from_left in string.punctuation or character_from_left == ' ':
+            # if character_from_left is punctuation or whitespace, increment left but pause right
+            return is_palindrome_recursive(text, left+1, right)
+        elif character_from_right in string.punctuation or character_from_right == ' ':
+            # if character_from_right is punctuation or whitespace, increment right but pause left
+            return is_palindrome_recursive(text, left, right-1)
+        elif character_from_left == character_from_right:
+            # if character_from_left and character_from_right are same, increment both
+            return is_palindrome_recursive(text, left+1, right-1)
+        else:
+            # if character_from_left and character_from_right are differnt, false
+            return False
 
 def main():
     import sys
