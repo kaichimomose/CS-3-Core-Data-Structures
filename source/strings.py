@@ -5,6 +5,37 @@ def contains(text, pattern):
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
     # TODO: Implement contains here (iteratively and/or recursively)
+    # iteratively
+    lowercase_text = text.lower()
+    if pattern != "":
+        # counts pattern index
+        pattern_index = 0
+        text_index = 0
+        while text_index < len(text):
+            # checks rest of text length and pattern length
+            if pattern_index == 0 and len(text) - text_index < len(pattern):
+                # if no match with pattern and rest of text length is shoter than
+                # pattern length, it is false
+                return False
+            else:
+                # checks each character in text
+                if lowercase_text[text_index] == pattern[pattern_index]:
+                    if pattern_index == len(pattern)-1:
+                        return True
+                    else:
+                        # increments text_index
+                        text_index += 1
+                        # increments pattern_index
+                        pattern_index += 1
+                else:
+
+                    text_index = text_index - pattern_index + 1
+                    # resets pattern_index
+                    pattern_index = 0
+        # defalt false
+        return False
+    else:
+        return True
 
 
 def find_index(text, pattern):
@@ -13,6 +44,43 @@ def find_index(text, pattern):
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
     # TODO: Implement find_index here (iteratively and/or recursively)
+    # iteratively
+    lowercase_text = text.lower()
+    # starting index of the first occurrence of pattern in text
+    starting_index = None
+    if pattern != "":
+        # counts pattern index
+        pattern_index = 0
+        text_index = 0
+        while text_index < len(text):
+            # checks rest of text length and pattern length
+            if pattern_index == 0 and len(text) - text_index < len(pattern):
+                # if no match with pattern and rest of text length is shoter than
+                # pattern length, it is false
+                return starting_index
+            else:
+                # checks each character in text
+                if lowercase_text[text_index] == pattern[pattern_index]:
+                    if starting_index is None:
+                        starting_index = text_index
+                    if pattern_index == len(pattern)-1:
+                        return starting_index
+                    else:
+                        # increments text_index
+                        text_index += 1
+                        # increments pattern_index
+                        pattern_index += 1
+                else:
+
+                    text_index = text_index - pattern_index + 1
+                    # resets pattern_index
+                    starting_index = None
+                    pattern_index = 0
+        # defalt false
+        return starting_index
+    else:
+        return 0
+
 
 
 def find_all_indexes(text, pattern):
@@ -21,7 +89,51 @@ def find_all_indexes(text, pattern):
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
     # TODO: Implement find_all_indexes here (iteratively and/or recursively)
+    # iteratively
+    lowercase_text = text.lower()
+    # starting index of the first occurrence of pattern in text
+    starting_index = None
+    # starting indexes of the first occurrence of pattern in text
+    starting_indexes = []
+    # counts pattern index
+    pattern_index = 0
+    text_index = 0
+    while text_index < len(text):
+        if pattern == "":
+            starting_indexes.append(text_index)
+            text_index += 1
+        else:
+            # checks rest of text length and pattern length
+            if pattern_index == 0 and len(text) - text_index < len(pattern):
+                # if no match with pattern and rest of text length is shoter than
+                # pattern length, it is false
+                return starting_indexes
+            else:
+                # checks each character in text
+                if lowercase_text[text_index] == pattern[pattern_index]:
+                    if starting_index is None:
+                        starting_index = text_index
+                    if pattern_index == len(pattern)-1:
+                        # save starting_index in list
+                        starting_indexes.append(starting_index)
+                        # resets pattern_index
+                        text_index = text_index - pattern_index + 1
+                        starting_index = None
+                        pattern_index = 0
+                    else:
+                        # increments text_index
+                        text_index += 1
+                        # increments pattern_index
+                        pattern_index += 1
+                else:
 
+                    text_index = text_index - pattern_index + 1
+                    # resets pattern_index
+                    starting_index = None
+                    pattern_index = 0
+
+    # defalt false
+    return starting_indexes
 
 def test_string_algorithms(text, pattern):
     found = contains(text, pattern)
@@ -29,7 +141,7 @@ def test_string_algorithms(text, pattern):
     # TODO: Uncomment these lines after you implement find_index
     index = find_index(text, pattern)
     print('find_index({!r}, {!r}) => {}'.format(text, pattern, index))
-    # TODO: Uncomment these lines after you implement find_all_indexes
+    # # TODO: Uncomment these lines after you implement find_all_indexes
     indexes = find_all_indexes(text, pattern)
     print('find_all_indexes({!r}, {!r}) => {}'.format(text, pattern, indexes))
 

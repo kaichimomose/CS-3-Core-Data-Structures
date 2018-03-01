@@ -34,7 +34,7 @@ def is_palindrome_iterative(text):
         reverse_text = ''
 
         for character in lowercase_text:
-            if character not in string.punctuation and character != ' ':
+            if character.isalpha() and character != ' ':
                 # make text with appending each character
                 new_text += character
                 # make text with prepending each character
