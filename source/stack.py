@@ -53,7 +53,7 @@ class LinkedStack(object):
         if self.is_empty():
             raise ValueError("This stack is empty.")
         else:
-            item = self.list.get_at_index(0)
+            item = self.peek()
             self.list.delete(item)
             return item
 
