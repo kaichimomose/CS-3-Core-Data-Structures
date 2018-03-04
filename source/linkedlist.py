@@ -147,6 +147,7 @@ class LinkedList(object):
                 else:
                     # increment node index
                     node_index += 1
+            print(self)
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
