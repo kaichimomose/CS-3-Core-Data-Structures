@@ -25,7 +25,7 @@ class HashTable(object):
 
     def load_factor(self):
         """Return the load factor, the ratio of number of entries to buckets.
-        Best and worst case running time: ??? under what conditions? [TODO]"""
+        Best and worst case running time: O(1)"""
         # Calculate load factor
         quotient = self.size / len(self.buckets)
         return quotient
@@ -157,8 +157,9 @@ class HashTable(object):
         # Get a list to temporarily hold all current key-value entries
         current_entries = self.items()
         # Create a new list of new_size total empty linked list buckets
-        self.buckets = [LinkedList() for i in range(new_size)]
-        self.size = 0
+        # self.buckets = [LinkedList() for i in range(new_size)]
+        # self.size = 0
+        self.__init__(new_size)
         # Insert each key-value entry into the new list of buckets,
         # which will rehash them into a new bucket index based on the new size
         for key, value in current_entries:
