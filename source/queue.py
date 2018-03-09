@@ -66,6 +66,8 @@ class ArrayQueue(object):
         """Initialize this queue and enqueue the given items, if any."""
         # Initialize a new list (dynamic array) to store the items
         self.list = list()
+        # track the item that is first in
+        self.first = 0
         if iterable is not None:
             for item in iterable:
                 self.enqueue(item)
@@ -77,12 +79,12 @@ class ArrayQueue(object):
     def is_empty(self):
         """Return True if this queue is empty, or False otherwise."""
         # TODO: Check if empty
-        return len(self.list) == 0
+        return self.length() == 0
 
     def length(self):
         """Return the number of items in this queue."""
         # TODO: Count number of items
-        return len(self.list)
+        return len(self.list) - self.first
 
     def enqueue(self, item):
         """Insert the given item at the back of this queue.
@@ -98,7 +100,7 @@ class ArrayQueue(object):
         if self.is_empty():
             return None
         else:
-            return self.list[0]
+            return self.list[self.first]
 
     def dequeue(self):
         """Remove and return the item at the front of this queue,
@@ -108,7 +110,9 @@ class ArrayQueue(object):
         if self.is_empty():
             raise ValueError("This queue is empty.")
         else:
-            return self.list.pop(0)
+            front_item = self.list[self.first]
+            self.first += 1
+            return front_item
 
 
 # Implement LinkedQueue and ArrayQueue above, then change the assignment below
