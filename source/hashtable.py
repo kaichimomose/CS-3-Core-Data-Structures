@@ -77,8 +77,7 @@ class HashTable(object):
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
         Best case running time: O(1) - first buket first item
-        Worst case running time: O(n*l) for n bukets in the hash table
-        for l items in the list - last buket last item"""
+        Worst case running time: O(l) for l items in the list - last buket last item"""
         # Find the bucket the given key belongs in
         index = self._bucket_index(key)
         bucket = self.buckets[index]
