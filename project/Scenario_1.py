@@ -7,7 +7,7 @@ def read_route_costs(path):
         # route_cost = line.split(',')
         # route, cost = route_cost[0], route_cost[1]
         # route, cost = tuple(route_cost)
-        route, cost = line.split(',')  # may not work because it's a list
+        route, cost = line.split(',')  # works even though it's a list
         routes_cost_dict[route] = cost.strip()  # replace("\n", "")
     return routes_cost_dict
 
@@ -21,6 +21,10 @@ def find_call_cost(routes_cost_dict, phone_number):
             actual_cost = routes_cost_dict[route]
     return actual_cost
 
+def write_txt(phone_number, cost):
+    with open("route-costs-1.txt", 'w') as f:
+        f.write(phone_number + ',' + cost)
+
 
 def main():
     import sys
@@ -29,8 +33,7 @@ def main():
         routes_cost_dict = read_route_costs("data/route-costs-106000.txt")
         phone_number = args[0]
         cost = find_call_cost(routes_cost_dict, phone_number)
-        output = phone_number + ',' + cost
-        print(output)
+        write_txt(phone_number, cost)
 
 
 if __name__ == '__main__':
