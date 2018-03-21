@@ -21,6 +21,7 @@ def find_call_cost(routes_cost_dict, phone_number):
             actual_cost = routes_cost_dict[route]
     return actual_cost
 
+
 def write_txt(phone_number, cost):
     with open("route-costs-1.txt", 'w') as f:
         f.write(phone_number + ',' + cost)
@@ -30,7 +31,7 @@ def main():
     import sys
     args = sys.argv[1:]  # Ignore script file name
     if len(args) > 0:
-        routes_cost_dict = read_route_costs("data/route-costs-106000.txt")
+        routes_cost_dict = read_route_costs("data/route-costs-4.txt")
         phone_number = args[0]
         cost = find_call_cost(routes_cost_dict, phone_number)
         write_txt(phone_number, cost)

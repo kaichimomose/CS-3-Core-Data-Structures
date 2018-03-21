@@ -132,13 +132,10 @@ class BinarySearchTree(object):
         while node is not None:
             # Check if the given item matches the node's data
             route, cost = node.data
-            candidate_route = item[0:len(route)]
-            if route == candidate_route:
+            if item == route:
                 # update the found node
                 actual_cost = cost
-
-            if item == route:
-                actual_cost = cost
+                return actual_cost
             # Check if the given item is less than the node's data
             elif item < route:
                 # Descend to the node's left child
