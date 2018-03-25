@@ -19,12 +19,15 @@ def bubble_sort(items):
     TODO: Running time: O(n*n) for n items in the list
     TODO: Memory usage: ??? Why and under what conditions?"""
     # Repeat until all items are in sorted order
-    while not is_sorted(items):
+    is_sorted = False
+    # while not is_sorted(items):
+    while not is_sorted:
+        is_sorted = True
         for i in range(len(items) - 1):
             # Swap adjacent items that are out of order
             if items[i] > items[i+1]:
                 items[i], items[i+1] = items[i+1], items[i]
-
+                is_sorted = False
 
 
 def selection_sort(items):
@@ -76,10 +79,26 @@ def merge(items1, items2):
     and return a new list containing all items in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until one list is empty
-    # TODO: Find minimum item in both lists and append it to new list
-    # TODO: Append remaining items in non-empty list to new list
-
+    front_index1 = 0
+    front_index2 = 0
+    sorting_list = []
+    # Repeat until one list is empty
+    while front_index1 < len(items1) and front_index2 < len(items2):
+        # Find minimum item in both lists and append it to new list
+        smallest_item1 = items1[front_index1]
+        smallest_item2 = items2[front_index2]
+        if smallest_item1 < smallest_item2:
+            sorting_list.append(smallest_item1)
+            front_index1 += 1
+        else:
+            sorting_list.append(smallest_item2)
+            front_index2 += 1
+    # Append remaining items in non-empty list to new list
+    if front_index1 != len(items1):
+        sorting_list.extend(items1[front_index1:len(items1)])
+    else:
+        sorting_list.extend(items2[front_index2:len(items2)])
+    return sorting_list
 
 def split_sort_merge(items):
     """Sort given items by splitting list into two approximately equal halves,
@@ -87,20 +106,34 @@ def split_sort_merge(items):
     a list in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Split items list into approximately equal halves
-    # TODO: Sort each half using any other sorting algorithm
-    # TODO: Merge sorted halves into one list in sorted order
-
+    # Split items list into approximately equal halves
+    middle_index = int((len(items))/2)
+    left_half = items[0:middle_index]
+    right_half = items[middle_index:len(items)]
+    # Sort each half using any other sorting algorithm
+    selection_sort(left_half)
+    selection_sort(right_half)
+    # Merge sorted halves into one list in sorted order
+    print(merge(left_half, right_half))
 
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Check if list is so small it's already sorted (base case)
-    # TODO: Split items list into approximately equal halves
-    # TODO: Sort each half by recursively calling merge sort
-    # TODO: Merge sorted halves into one list in sorted order
+    # Check if list is so small it's already sorted (base case)
+    if len(items) == 1:
+        return items
+    # Split items list into approximately equal halves
+    middle_index = int((len(items))/2)
+    left_half = items[0:middle_index]
+    right_half = items[middle_index:len(items)]
+    # Sort each half by recursively calling merge sort
+    items1 = merge_sort(left_half)
+    items2 = merge_sort(right_half)
+    # Merge sorted halves into one list in sorted order
+    items = merge(items1, items2)
+    return items
 
 
 def partition(items, low, high):
