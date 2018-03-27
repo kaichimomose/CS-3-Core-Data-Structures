@@ -77,8 +77,8 @@ def insertion_sort(items):
 def merge(items1, items2):
     """Merge given lists of items, each assumed to already be in sorted order,
     and return a new list containing all items in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    TODO: Running time: O(n + m) for n items in one list and m items in another list
+    TODO: Memory usage: O(n + m) for n items in one list and m items in another list"""
     front_index1 = 0
     front_index2 = 0
     sorting_list = []
@@ -95,17 +95,17 @@ def merge(items1, items2):
             front_index2 += 1
     # Append remaining items in non-empty list to new list
     if front_index1 != len(items1):
-        sorting_list.extend(items1[front_index1:len(items1)])
+        sorting_list.extend(items1[front_index1:])
     else:
-        sorting_list.extend(items2[front_index2:len(items2)])
+        sorting_list.extend(items2[front_index2:])
     return sorting_list
 
 def split_sort_merge(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each with an iterative sorting algorithm, and merging results into
     a list in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    TODO: Running time: O(m*m) for half of items (m=n/2) in the list
+    TODO: Memory usage: O(n) for n items in the list"""
     # Split items list into approximately equal halves
     middle_index = int((len(items))/2)
     left_half = items[0:middle_index]
@@ -114,20 +114,21 @@ def split_sort_merge(items):
     selection_sort(left_half)
     selection_sort(right_half)
     # Merge sorted halves into one list in sorted order
-    print(merge(left_half, right_half))
+    items = merge(left_half, right_half)
+    return items
 
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
+    TODO: Running time: O(n * logn)
     TODO: Memory usage: ??? Why and under what conditions?"""
     # Check if list is so small it's already sorted (base case)
     if len(items) == 1:
         return items
     # Split items list into approximately equal halves
     middle_index = int((len(items))/2)
-    left_half = items[0:middle_index]
-    right_half = items[middle_index:len(items)]
+    left_half = items[:middle_index]
+    right_half = items[middle_index:]
     # Sort each half by recursively calling merge sort
     items1 = merge_sort(left_half)
     items2 = merge_sort(right_half)
@@ -204,7 +205,10 @@ def test_sorting(sort=bubble_sort, num_items=20, max_value=50):
     # Change this sort variable to the sorting algorithm you want to test
     # sort = bubble_sort
     print('Sorting items with {}(items)'.format(sort.__name__))
-    sort(items)
+    if sort == merge_sort or sort == split_sort_merge:
+        items = sort(items)
+    else:
+        sort(items)
     print('Sorted items:  {!r}'.format(items))
     print('Sorted order?  {!r}'.format(is_sorted(items)))
 
