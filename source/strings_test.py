@@ -1,6 +1,7 @@
 #!python
 
-from strings import contains, find_index, find_all_indexes
+# from strings import contains, find_index, find_all_indexes
+from rechallenge import contains, find_index, find_all_indexes
 import unittest
 
 
