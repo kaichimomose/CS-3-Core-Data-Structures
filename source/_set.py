@@ -9,7 +9,7 @@ class Set(object):
         self.size = 0
         if elements is not None:
             for element in elements:
-                self.list.append(element)
+                self.add(element)
                 self.size += 1
 
     def contains(self, element):
