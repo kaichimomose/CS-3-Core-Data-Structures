@@ -345,6 +345,9 @@ class DoublyLinkedList(object):
                 deleting_node.next = None
                 # Unlink the found node from its next node
                 deleting_node.previous = None
+            if deleting_node is self.head and deleting_node is self.tail:
+                self.head = None
+                self.tail = None
             # Check if we found a node at the head
             if deleting_node is self.head:
                 # Update head to the next node
@@ -357,10 +360,10 @@ class DoublyLinkedList(object):
                 if deleting_node.previous is not None:
                     # Unlink the previous node from the found node
                     deleting_node.previous.next = None
-                # Unlink the found node from the next node
-                deleting_node.previous = None
                 # Update tail to the previous node regardless
                 self.tail = deleting_node.previous
+                # Unlink the found node from the next node
+                deleting_node.previous = None
         else:
             # Otherwise raise an error to tell the user that delete has failed
             raise ValueError('Item not found: {}'.format(item))
