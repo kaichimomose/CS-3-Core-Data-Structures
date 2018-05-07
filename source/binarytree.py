@@ -113,11 +113,45 @@ class BinarySearchTree(object):
             # Create a new node and set the parent's left child
             parent.left = BinaryTreeNode(item)
         # Check if the given item should be inserted right of parent node
-        elif item > parent.data:
+        else:  # item >= parent.data
             # Create a new node and set the parent's right child
             parent.right = BinaryTreeNode(item)
         # Increase the tree size
         self.size += 1
+
+    def delete(self, item):
+        parent = self._find_parent_node_recursive(self, item, self.root)
+        if parent is not None:
+            if item < parent.data:
+                deleting_node = parent.left
+                new_chain = self.create_new_chain(deleting_node)
+                parent.left = new_chain
+            else:
+                deleting_node = parent.right
+                new_chain = self.create_new_chain(deleting_node)
+                parent.right = new_chain
+        else:
+            raise ValueError('This tree does not have {}.'.format(item))
+
+    def create_new_chain(self, node):
+        left_child = node.left
+        right_child = node.right
+
+        if right_child is not None and right_child.data == node.data:
+            right_child = self.create_new_chain(right_child)
+
+        if left_child is not None:
+            right_leaf = self.find_right_leaf(left_child)
+            right_leaf.right = right_child
+            return left_child
+        else:
+            return None
+
+    def find_right_leaf(self, node):
+        if node.right is None:
+            return node
+        else:
+            self.find_right_leaf(node.right)
 
     def _find_node_iterative(self, item):
         """Return the node containing the given item in this binary search tree,
