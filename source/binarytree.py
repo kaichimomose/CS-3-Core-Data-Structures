@@ -119,40 +119,6 @@ class BinarySearchTree(object):
         # Increase the tree size
         self.size += 1
 
-    def delete(self, item):
-        parent = self._find_parent_node_recursive(self, item, self.root)
-        if parent is not None:
-            if item < parent.data:
-                deleting_node = parent.left
-                new_chain = self.create_new_chain(deleting_node)
-                parent.left = new_chain
-            else:
-                deleting_node = parent.right
-                new_chain = self.create_new_chain(deleting_node)
-                parent.right = new_chain
-        else:
-            raise ValueError('This tree does not have {}.'.format(item))
-
-    def create_new_chain(self, node):
-        left_child = node.left
-        right_child = node.right
-
-        if right_child is not None and right_child.data == node.data:
-            right_child = self.create_new_chain(right_child)
-
-        if left_child is not None:
-            right_leaf = self.find_right_leaf(left_child)
-            right_leaf.right = right_child
-            return left_child
-        else:
-            return None
-
-    def find_right_leaf(self, node):
-        if node.right is None:
-            return node
-        else:
-            self.find_right_leaf(node.right)
-
     def _find_node_iterative(self, item):
         """Return the node containing the given item in this binary search tree,
         or None if the given item is not found. Search is performed iteratively
@@ -258,13 +224,57 @@ class BinarySearchTree(object):
             # Hint: Remember to update the parent parameter
             return self._find_parent_node_recursive(item, node.right, node)
 
+    # def delete(self, item):
+    #     """Remove given item from this tree, if present, or raise ValueError.
+    #     TODO: Best case running time: ??? under what conditions?
+    #     TODO: Worst case running time: ??? under what conditions?"""
+    #     # TODO: Use helper methods and break this algorithm down into 3 cases
+    #     # based on how many children the node containing the given item has and
+    #     # implement new helper methods for subtasks of the more complex cases
+
     def delete(self, item):
         """Remove given item from this tree, if present, or raise ValueError.
-        TODO: Best case running time: ??? under what conditions?
-        TODO: Worst case running time: ??? under what conditions?"""
-        # TODO: Use helper methods and break this algorithm down into 3 cases
-        # based on how many children the node containing the given item has and
-        # implement new helper methods for subtasks of the more complex cases
+            TODO: Best case running time: ??? under what conditions?
+            TODO: Worst case running time: ??? under what conditions?"""
+        parent = self._find_parent_node_recursive(item, self.root)
+        if parent is not None:
+            if item < parent.data:
+                deleting_node = parent.left
+                print(deleting_node)
+                new_chain = self.create_new_chain(deleting_node)
+                parent.left = new_chain
+            else:
+                deleting_node = parent.right
+                print(deleting_node)
+                new_chain = self.create_new_chain(deleting_node)
+                parent.right = new_chain
+        else:
+            if self.root.data == item:
+                deleting_node = self.root
+                new_chain = self.create_new_chain(deleting_node)
+                self.root = new_chain
+            else:
+                raise ValueError('This tree does not have {}.'.format(item))
+
+    def create_new_chain(self, node):
+        left_child = node.left
+        right_child = node.right
+
+        if right_child is not None and right_child.data == node.data:
+            right_child = self.create_new_chain(right_child)
+
+        if left_child is not None:
+            right_leaf = self.find_right_leaf(left_child)
+            right_leaf.right = right_child
+            return left_child
+        else:
+            return right_child
+
+    def find_right_leaf(self, node):
+        if node.right is None:
+            return node
+        else:
+            return self.find_right_leaf(node.right)
 
     def items_in_order(self):
         """Return an in-order list of all items in this binary search tree."""
@@ -391,8 +401,8 @@ class BinarySearchTree(object):
 def test_binary_search_tree():
     # Create a complete binary search tree of 3, 7, or 15 items in level-order
     # items = [2, 1, 3]
-    items = [4, 2, 6, 1, 3, 5, 7]
-    # items = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
+    # items = [4, 2, 6, 1, 3, 5, 7]
+    items = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
     print('items: {}'.format(items))
 
     tree = BinarySearchTree()
@@ -419,6 +429,11 @@ def test_binary_search_tree():
     print('items post-order:  {}'.format(tree.items_post_order()))
     print('items level-order: {}'.format(tree.items_level_order()))
 
+    for item in items:
+        tree.delete(item)
+        print('delete({}): {}'.format(item, result))
+        print('items in-order:    {}'.format(tree.items_in_order()))
+        print('items level-order: {}'.format(tree.items_level_order()))
 
 if __name__ == '__main__':
     test_binary_search_tree()
